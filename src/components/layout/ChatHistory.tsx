@@ -34,14 +34,14 @@ const ChatHistoryItem = ({ title, timestamp, active = false }: ChatHistoryItemPr
     whileHover={{ x: 5 }}
     className={`p-3 rounded-md cursor-pointer transition-colors ${
       active 
-        ? "bg-[#467FF7]/10 border border-[#467FF7]/20" 
-        : "hover:bg-gray-100"
+        ? "bg-jolly-button-hover" 
+        : "hover:bg-jolly-chat-bubble"
     }`}
     variants={listItemVariants}
   >
     <div className="flex items-start justify-between">
       <div className="flex-grow">
-        <h4 className="font-medium text-sm font-poppins tracking-tighter">{title}</h4>
+        <h4 className="font-medium text-sm">{title}</h4>
         <p className="text-xs text-jolly-text-secondary mt-1">{timestamp}</p>
       </div>
       <MessageSquare size={16} className="text-jolly-text-secondary mt-1" />
@@ -61,14 +61,14 @@ export default function ChatHistory() {
           initial={{ x: -20 }}
           animate={{ x: 0 }}
           transition={{ delay: 0.2 }}
-          className="text-lg font-medium mb-4 font-poppins tracking-tighter"
+          className="text-lg font-medium mb-4"
         >
           Historique des conversations
         </motion.h2>
         
         {/* Today's chats */}
         <div className="mb-6">
-          <h3 className="text-xs font-medium text-jolly-text-secondary uppercase tracking-wider mb-2 font-poppins tracking-tighter">
+          <h3 className="text-xs font-medium text-jolly-text-secondary uppercase tracking-wider mb-2">
             Aujourd'hui
           </h3>
           <motion.div 
@@ -95,7 +95,7 @@ export default function ChatHistory() {
         
         {/* Yesterday's chats */}
         <div>
-          <h3 className="text-xs font-medium text-jolly-text-secondary uppercase tracking-wider mb-2 font-poppins tracking-tighter">
+          <h3 className="text-xs font-medium text-jolly-text-secondary uppercase tracking-wider mb-2">
             Hier
           </h3>
           <motion.div 

@@ -32,7 +32,7 @@ export default {
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
 				primary: {
-					DEFAULT: 'hsl(var(--primary))',
+					DEFAULT: '#467FF7',
 					foreground: 'hsl(var(--primary-foreground))'
 				},
 				secondary: {
@@ -77,7 +77,8 @@ export default {
 					'text-secondary': '#6B7280',
 					border: '#E5E7EB',
 					'chat-bubble': '#F3F4F6',
-					'button-hover': '#EEF2FF'
+					'button-hover': '#EEF2FF',
+					'primary': '#467FF7'
 				}
 			},
 			borderRadius: {

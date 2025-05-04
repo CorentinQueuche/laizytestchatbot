@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,6 +62,16 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				jolly: {
+					purple: '#7B61FF',
+					background: '#F9FAFB',
+					white: '#FFFFFF',
+					'text-primary': '#111827',
+					'text-secondary': '#6B7280',
+					border: '#E5E7EB',
+					'chat-bubble': '#F3F4F6',
+					'button-hover': '#EEF2FF'
 				}
 			},
 			borderRadius: {

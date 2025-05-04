@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { motion } from "framer-motion";
 import { 
   X,
   ChevronDown,
@@ -13,11 +14,36 @@ import {
   Trash2
 } from "lucide-react";
 
+// Animation variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: { 
+    opacity: 1,
+    transition: { 
+      when: "beforeChildren",
+      staggerChildren: 0.1
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: { 
+    y: 0, 
+    opacity: 1,
+    transition: { type: "spring", stiffness: 300, damping: 24 }
+  }
+};
+
 // QuickPrompt Component
 const QuickPrompt = ({ text }: { text: string }) => (
-  <div className="bg-jolly-white hover:bg-jolly-button-hover border border-jolly-border rounded-full px-4 py-2 text-sm cursor-pointer transition-all">
+  <motion.div 
+    className="bg-jolly-white hover:bg-jolly-button-hover border border-jolly-border rounded-full px-4 py-2 text-sm cursor-pointer transition-all"
+    whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
+    whileTap={{ scale: 0.95 }}
+  >
     {text}
-  </div>
+  </motion.div>
 );
 
 // Recent Chat Card Component
@@ -26,11 +52,16 @@ const RecentChatCard = ({ title, description, timestamp }: {
   description: string;
   timestamp: string;
 }) => (
-  <Card className="p-4 hover:shadow-md transition-shadow cursor-pointer">
-    <h3 className="font-medium mb-1 font-poppins tracking-tighter">{title}</h3>
-    <p className="text-sm text-jolly-text-secondary mb-3 line-clamp-2 font-poppins tracking-tighter">{description}</p>
-    <div className="text-xs text-jolly-text-secondary">{timestamp}</div>
-  </Card>
+  <motion.div
+    whileHover={{ y: -5, boxShadow: "0 10px 25px rgba(0,0,0,0.1)" }}
+    transition={{ type: "spring", stiffness: 400, damping: 10 }}
+  >
+    <Card className="p-4 transition-shadow cursor-pointer">
+      <h3 className="font-medium mb-1 font-poppins tracking-tighter">{title}</h3>
+      <p className="text-sm text-jolly-text-secondary mb-3 line-clamp-2 font-poppins tracking-tighter">{description}</p>
+      <div className="text-xs text-jolly-text-secondary">{timestamp}</div>
+    </Card>
+  </motion.div>
 );
 
 export default function MainPanel() {
@@ -39,53 +70,87 @@ export default function MainPanel() {
       {/* Main Content */}
       <div className="flex-1 overflow-y-auto p-6">
         {/* Top Actions */}
-        <div className="flex justify-end mb-4 gap-2">
+        <motion.div 
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="flex justify-end mb-4 gap-2"
+        >
           <Button variant="ghost" size="sm" className="text-sm gap-1">
             <Share size={16} />
-            Share
+            Partager
           </Button>
           <Button variant="ghost" size="sm" className="text-sm gap-1 text-red-500 hover:text-red-600 hover:bg-red-50">
             <Trash2 size={16} />
-            Delete
+            Supprimer
           </Button>
-        </div>
+        </motion.div>
         
         {/* Free Trial Banner */}
-        <div className="bg-jolly-white border border-jolly-border rounded-lg p-4 mb-6 relative">
+        <motion.div 
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="bg-jolly-white border border-jolly-border rounded-lg p-4 mb-6 relative"
+        >
           <button className="absolute top-3 right-3 text-jolly-text-secondary hover:text-jolly-text-primary">
             <X size={16} />
           </button>
           <div className="flex items-center gap-3">
-            <div className="bg-jolly-purple text-white rounded-full p-2">
+            <motion.div 
+              whileHover={{ rotate: 15, scale: 1.1 }}
+              className="bg-jolly-purple text-white rounded-full p-2"
+            >
               <span className="text-lg">✨</span>
-            </div>
+            </motion.div>
             <div>
-              <h3 className="font-medium font-poppins tracking-tighter">Free trial activated!</h3>
+              <h3 className="font-medium font-poppins tracking-tighter">Essai gratuit activé !</h3>
               <p className="text-sm text-jolly-text-secondary font-poppins tracking-tighter">
-                You have 25 free messages. Upgrade anytime to continue the conversation.
+                Vous disposez de 25 messages gratuits. Effectuez une mise à niveau à tout moment pour poursuivre la conversation.
               </p>
             </div>
           </div>
-        </div>
+        </motion.div>
         
         {/* Chat Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-semibold mb-2 font-poppins tracking-tighter">
-            Start talking to Jolly
-            <span className="ml-2">👋</span>
-          </h1>
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4 }}
+          className="text-center mb-8"
+        >
+          <motion.h1 
+            initial={{ scale: 0.95 }}
+            animate={{ scale: 1 }}
+            transition={{ type: "spring", stiffness: 200, delay: 0.5 }}
+            className="text-3xl font-semibold mb-2 font-poppins tracking-tighter"
+          >
+            Commencez à discuter avec Jolly
+            <motion.span 
+              animate={{ rotate: [0, 10, -10, 10, 0] }}
+              transition={{ duration: 1, delay: 1, repeat: 0 }}
+              className="ml-2 inline-block"
+            >
+              👋
+            </motion.span>
+          </motion.h1>
           <p className="text-jolly-text-secondary max-w-lg mx-auto font-poppins tracking-tighter">
-            Jolly is your AI assistant that helps you draft emails, summarize documents, 
-            brainstorm ideas, and more.
+            Jolly est votre assistant IA qui vous aide à rédiger des emails, résumer des documents, 
+            réfléchir à des idées et bien plus encore.
           </p>
-        </div>
+        </motion.div>
         
         {/* Chat Input */}
-        <div className="bg-jolly-white border border-jolly-border rounded-lg p-4 mb-6">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+          className="bg-jolly-white border border-jolly-border rounded-lg p-4 mb-6"
+        >
           <div className="flex items-center gap-2 mb-4">
             <div className="flex-grow">
               <Input 
-                placeholder="Write a question..." 
+                placeholder="Écrivez une question..." 
                 className="bg-transparent border-0 shadow-none focus-visible:ring-0 text-base px-0 font-poppins tracking-tighter"
               />
             </div>
@@ -94,7 +159,9 @@ export default function MainPanel() {
                 GPT-4o mini
                 <ChevronDown size={16} />
               </Button>
-              <Button size="sm" className="bg-jolly-purple hover:bg-opacity-90 font-poppins tracking-tighter">Send</Button>
+              <motion.div whileTap={{ scale: 0.95 }}>
+                <Button size="sm" className="bg-jolly-purple hover:bg-opacity-90 font-poppins tracking-tighter">Envoyer</Button>
+              </motion.div>
             </div>
           </div>
           
@@ -104,43 +171,66 @@ export default function MainPanel() {
           <div>
             <div className="flex items-center gap-2 mb-3">
               <Plus size={16} className="text-jolly-text-secondary" />
-              <span className="text-sm text-jolly-text-secondary font-poppins tracking-tighter">Add content</span>
+              <span className="text-sm text-jolly-text-secondary font-poppins tracking-tighter">Ajouter du contenu</span>
             </div>
-            <div className="flex flex-wrap gap-2">
-              <QuickPrompt text="Draft an email" />
-              <QuickPrompt text="Summarize text" />
-              <QuickPrompt text="Meeting notes" />
-              <QuickPrompt text="Creative ideas" />
-            </div>
+            <motion.div 
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+              className="flex flex-wrap gap-2"
+            >
+              <motion.div variants={itemVariants}><QuickPrompt text="Rédiger un email" /></motion.div>
+              <motion.div variants={itemVariants}><QuickPrompt text="Résumer un texte" /></motion.div>
+              <motion.div variants={itemVariants}><QuickPrompt text="Notes de réunion" /></motion.div>
+              <motion.div variants={itemVariants}><QuickPrompt text="Idées créatives" /></motion.div>
+            </motion.div>
           </div>
-        </div>
+        </motion.div>
         
         {/* Recent Chats */}
-        <div className="mb-6">
-          <h2 className="text-xl font-semibold mb-4 font-poppins tracking-tighter">Recent Chats</h2>
-          <div className="grid grid-cols-2 gap-4">
-            <RecentChatCard 
-              title="Draft email to marketing team"
-              description="I need to draft an email to the marketing team about our upcoming product launch. The email should be professional yet..."
-              timestamp="10:42 AM"
-            />
-            <RecentChatCard 
-              title="Product roadmap discussion"
-              description="Let's discuss the product roadmap for Q3. I need to prioritize features and allocate resources efficiently..."
-              timestamp="9:15 AM"
-            />
-            <RecentChatCard 
-              title="Customer feedback summary"
-              description="Can you help me summarize the key points from our customer feedback survey? We received over 500 responses..."
-              timestamp="8:30 AM"
-            />
-            <RecentChatCard 
-              title="Q3 planning document"
-              description="I need to create a planning document for Q3 that outlines our goals, metrics, and key initiatives..."
-              timestamp="Yesterday"
-            />
-          </div>
-        </div>
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8 }}
+          className="mb-6"
+        >
+          <h2 className="text-xl font-semibold mb-4 font-poppins tracking-tighter">Conversations Récentes</h2>
+          <motion.div 
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="grid grid-cols-2 gap-4"
+          >
+            <motion.div variants={itemVariants}>
+              <RecentChatCard 
+                title="Brouillon d'email pour l'équipe marketing"
+                description="J'ai besoin de rédiger un email à l'équipe marketing concernant notre prochaine lancement de produit. L'email doit être professionnel mais..."
+                timestamp="10:42"
+              />
+            </motion.div>
+            <motion.div variants={itemVariants}>
+              <RecentChatCard 
+                title="Discussion sur la feuille de route du produit"
+                description="Discutons de la feuille de route du produit pour le T3. Je dois prioriser les fonctionnalités et allouer efficacement les ressources..."
+                timestamp="9:15"
+              />
+            </motion.div>
+            <motion.div variants={itemVariants}>
+              <RecentChatCard 
+                title="Résumé des retours clients"
+                description="Pouvez-vous m'aider à résumer les points clés de notre enquête de satisfaction client ? Nous avons reçu plus de 500 réponses..."
+                timestamp="8:30"
+              />
+            </motion.div>
+            <motion.div variants={itemVariants}>
+              <RecentChatCard 
+                title="Document de planification T3"
+                description="J'ai besoin de créer un document de planification pour le T3 qui présente nos objectifs, métriques et initiatives clés..."
+                timestamp="Hier"
+              />
+            </motion.div>
+          </motion.div>
+        </motion.div>
       </div>
     </main>
   );

@@ -1,6 +1,7 @@
 
 import React from "react";
 import { MessageSquare } from "lucide-react";
+import { motion } from "framer-motion";
 
 interface ChatHistoryItemProps {
   title: string;
@@ -8,13 +9,35 @@ interface ChatHistoryItemProps {
   active?: boolean;
 }
 
+const listItemVariants = {
+  hidden: { opacity: 0, x: 20 },
+  visible: { 
+    opacity: 1, 
+    x: 0,
+    transition: { type: "spring", stiffness: 300, damping: 24 }
+  }
+};
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.3
+    }
+  }
+};
+
 const ChatHistoryItem = ({ title, timestamp, active = false }: ChatHistoryItemProps) => (
-  <div 
+  <motion.div 
+    whileHover={{ x: 5 }}
     className={`p-3 rounded-md cursor-pointer transition-colors ${
       active 
         ? "bg-jolly-button-hover" 
         : "hover:bg-jolly-chat-bubble"
     }`}
+    variants={listItemVariants}
   >
     <div className="flex items-start justify-between">
       <div className="flex-grow">
@@ -23,62 +46,83 @@ const ChatHistoryItem = ({ title, timestamp, active = false }: ChatHistoryItemPr
       </div>
       <MessageSquare size={16} className="text-jolly-text-secondary mt-1" />
     </div>
-  </div>
+  </motion.div>
 );
 
 export default function ChatHistory() {
   return (
     <aside className="bg-jolly-white border-l border-jolly-border w-64 h-screen overflow-y-auto">
-      <div className="p-6">
-        <h2 className="text-lg font-medium mb-4">Chat History</h2>
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="p-6"
+      >
+        <motion.h2 
+          initial={{ x: -20 }}
+          animate={{ x: 0 }}
+          transition={{ delay: 0.2 }}
+          className="text-lg font-medium mb-4"
+        >
+          Historique des conversations
+        </motion.h2>
         
         {/* Today's chats */}
         <div className="mb-6">
           <h3 className="text-xs font-medium text-jolly-text-secondary uppercase tracking-wider mb-2">
-            Today
+            Aujourd'hui
           </h3>
-          <div className="space-y-2">
+          <motion.div 
+            className="space-y-2"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
             <ChatHistoryItem 
-              title="Draft email to marketing team" 
-              timestamp="10:42 AM"
+              title="Brouillon d'email pour l'équipe marketing" 
+              timestamp="10:42"
               active
             />
             <ChatHistoryItem 
-              title="Product roadmap discussion" 
-              timestamp="9:15 AM"
+              title="Discussion sur la feuille de route du produit" 
+              timestamp="9:15"
             />
             <ChatHistoryItem 
-              title="Customer feedback summary" 
-              timestamp="8:30 AM"
+              title="Résumé des retours clients" 
+              timestamp="8:30"
             />
-          </div>
+          </motion.div>
         </div>
         
         {/* Yesterday's chats */}
         <div>
           <h3 className="text-xs font-medium text-jolly-text-secondary uppercase tracking-wider mb-2">
-            Yesterday
+            Hier
           </h3>
-          <div className="space-y-2">
+          <motion.div 
+            className="space-y-2"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
             <ChatHistoryItem 
-              title="Q3 planning document" 
-              timestamp="4:22 PM"
+              title="Document de planification T3" 
+              timestamp="16:22"
             />
             <ChatHistoryItem 
-              title="Interview questions for position" 
-              timestamp="2:45 PM"
+              title="Questions d'entretien pour le poste" 
+              timestamp="14:45"
             />
             <ChatHistoryItem 
-              title="Budget revision for Q2" 
-              timestamp="11:20 AM"
+              title="Révision du budget pour T2" 
+              timestamp="11:20"
             />
             <ChatHistoryItem 
-              title="Meeting notes from standup" 
-              timestamp="9:05 AM"
+              title="Notes de réunion quotidienne" 
+              timestamp="9:05"
             />
-          </div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     </aside>
   );
 }
